@@ -13,9 +13,11 @@
     h1 { max-width:760px; margin:0; font-size:clamp(2.35rem,6vw,4.6rem); line-height:.96; letter-spacing:-.065em; }
     .intro { max-width:600px; margin:20px 0 0; color:var(--muted); font-size:1.08rem; }
     main { max-width:1180px; margin:auto; padding:30px 24px 70px; }
-    .toolbar { position:sticky; top:0; z-index:5; display:flex; gap:12px; align-items:center; justify-content:space-between; margin:0 -12px 28px; padding:12px; border-bottom:1px solid var(--line); background:var(--paper); background:color-mix(in srgb, var(--paper) 94%, transparent); flex-wrap:wrap; }
+    .toolbar { position:sticky; top:0; z-index:5; display:grid; grid-template-columns:minmax(0, 1fr); gap:10px; margin:0 -12px 28px; padding:12px; border-bottom:1px solid var(--line); background:var(--paper); background:color-mix(in srgb, var(--paper) 94%, transparent); }
     .search { flex:1; min-width:220px; min-height:48px; border:1px solid var(--line); border-radius:10px; padding:13px 15px; color:var(--ink); background:var(--panel); font:inherit; }
     .search:focus { outline:3px solid #cbb6ef; border-color:var(--accent); }
+    .filter-block { min-width:0; }
+    .filter-label { margin:0 0 6px; color:var(--muted); font:700 11px/1 monospace; letter-spacing:.08em; text-transform:uppercase; }
     .filters { display:flex; flex-wrap:wrap; gap:7px; }
     button { min-height:42px; border:1px solid var(--line); border-radius:999px; padding:9px 12px; cursor:pointer; color:var(--ink); background:transparent; font:700 13px/1 Arial, sans-serif; transition:.18s ease; }
     button:hover, button:focus-visible, button.active { color:white; border-color:var(--accent); background:var(--accent); outline:none; }
@@ -42,7 +44,7 @@
     .empty { display:none; grid-column:1/-1; padding:40px; border:1px dashed var(--line); border-radius:14px; color:var(--muted); text-align:center; }
     footer { max-width:1180px; margin:auto; padding:0 24px 40px; color:var(--muted); font-size:.85rem; }
     @media (max-width:800px) { .branch { grid-column:span 6; } }
-    @media (max-width:560px) { header { padding-top:36px; } main { padding:18px 14px 54px; } .branch { grid-column:1/-1; min-height:0; } .toolbar { align-items:stretch; margin:0 -2px 20px; padding:10px 2px; } .search { min-width:0; width:100%; } .filters { flex-wrap:nowrap; overflow-x:auto; padding:1px 0 5px; scrollbar-width:none; } .filters::-webkit-scrollbar { display:none; } .filters button { flex:0 0 auto; min-height:44px; } .tag { grid-template-columns:minmax(0, 1fr) 20px; gap:3px 10px; padding:13px 10px; } .tag code { grid-column:1; font-size:14px; } .tag span { grid-column:1; font-size:.92rem; } .tag .arrow { grid-column:2; grid-row:1 / span 2; align-self:center; } dialog { width:100%; max-width:none; max-height:88dvh; margin:0; position:fixed; inset:auto 0 0; border-radius:18px 18px 0 0; } .detail { padding:22px 18px max(24px, env(safe-area-inset-bottom)); } .detail h3 { font-size:1.45rem; } .meaning { font-size:1rem; } pre { padding:14px; font-size:12px; } }
+    @media (max-width:560px) { header { padding-top:36px; } main { padding:18px 14px 54px; } .branch { grid-column:1/-1; min-height:0; } .toolbar { margin:0 -2px 20px; padding:10px 2px; } .search { min-width:0; width:100%; } .filters { flex-wrap:nowrap; overflow-x:auto; padding:1px 0 5px; scrollbar-width:none; } .filters::-webkit-scrollbar { display:none; } .filters button { flex:0 0 auto; min-height:44px; } .tag { grid-template-columns:minmax(0, 1fr) 20px; gap:3px 10px; padding:13px 10px; } .tag code { grid-column:1; font-size:14px; } .tag span { grid-column:1; font-size:.92rem; } .tag .arrow { grid-column:2; grid-row:1 / span 2; align-self:center; } dialog { width:100%; max-width:none; max-height:88dvh; margin:0; position:fixed; inset:auto 0 0; border-radius:18px 18px 0 0; } .detail { padding:22px 18px max(24px, env(safe-area-inset-bottom)); } .detail h3 { font-size:1.45rem; } .meaning { font-size:1rem; } pre { padding:14px; font-size:12px; } }
     @media print { header { padding:24px; } main { padding:18px; } .toolbar, footer { display:none; } .map { gap:9px; } .branch { min-height:auto; } dialog { display:none; } }
   </style>
 </head>
@@ -54,8 +56,9 @@
   </header>
   <main>
     <div class="toolbar">
-      <input class="search" id="search" type="search" placeholder="Buscar uma tag ou assunto, por exemplo: imagem" aria-label="Buscar tags" />
-      <div class="filters" id="filters"></div>
+      <input class="search" id="search" type="search" placeholder="Buscar um item, por exemplo: imagem" aria-label="Buscar itens" />
+      <div class="filter-block"><p class="filter-label">1. Tecnologia</p><div class="filters" id="tracks"></div></div>
+      <div class="filter-block"><p class="filter-label">2. Assunto</p><div class="filters" id="filters"></div></div>
     </div>
     <section class="map" id="map" aria-label="Mapa mental de desenvolvimento web">
       <p class="empty" id="empty">Nenhuma tag encontrada. Tente outro termo.</p>
@@ -68,7 +71,7 @@
       <p class="meaning" id="detailMeaning"></p>
       <p class="example-label">EXEMPLO SIMPLES</p>
       <pre id="detailExample"></pre>
-      <p class="hint">Dica: use tags semânticas quando possível — elas deixam seu site mais claro para pessoas, buscadores e leitores de tela.</p>
+      <p class="hint">Dica: primeiro entenda a frase acima; depois copie o exemplo e teste com calma.</p>
     </article>
   </dialog>
   <script>
@@ -154,15 +157,19 @@
       ,{name:'React: Estrutura avançada', items:[
         ['React Router','Biblioteca comum para rotas no cliente','<Route path="/perfil" element={<Perfil />} />'], ['lazy','Carrega um componente sob demanda','const Admin = lazy(() => import("./Admin"));'], ['Suspense','Mostra fallback enquanto componente lazy carrega','<Suspense fallback={<p>Carregando...</p>}><Admin /></Suspense>'], ['memo','Evita render desnecessário quando props não mudam','const Item = memo(function Item({ nome }) { return <li>{nome}</li>; });'], ['StrictMode','Ajuda a detectar problemas durante desenvolvimento','<StrictMode><App /></StrictMode>'], ['formulários','Valide campos, mostre erro perto do campo e impeça envio inválido','if (!email.includes("@")) setErro("E-mail inválido");'], ['acessibilidade','Use HTML semântico, label, foco visível e botões reais','<button aria-label="Fechar menu">Fechar</button>'], ['teste','Verifica comportamento do usuário, não detalhes internos','// renderizar, clicar e verificar o resultado'] ]}
     ];
-    const map=document.querySelector('#map'), filters=document.querySelector('#filters'), search=document.querySelector('#search'), empty=document.querySelector('#empty'); let active='Todos';
+    const map=document.querySelector('#map'), tracks=document.querySelector('#tracks'), filters=document.querySelector('#filters'), search=document.querySelector('#search'), empty=document.querySelector('#empty');
+    const trackNames=['Tudo','HTML','CSS','Git','GitHub','JavaScript','TypeScript','Node.js','React'];
+    let activeTrack='Tudo', active='Todas';
+    function trackFor(name) { if (name.startsWith('CSS')) return 'CSS'; if (name.startsWith('GitHub')) return 'GitHub'; if (name.startsWith('Git')) return 'Git'; if (name.startsWith('JS')) return 'JavaScript'; if (name.startsWith('TypeScript')) return 'TypeScript'; if (name.startsWith('Node.js')) return 'Node.js'; if (name.startsWith('React')) return 'React'; return 'HTML'; }
     const escapeHTML=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
     function draw(){ document.querySelectorAll('.branch').forEach(e=>e.remove()); const term=search.value.toLowerCase().trim(); let count=0;
-      groups.forEach(g=>{ const filtered=g.items.filter(i=>(active==='Todos'||active===g.name)&&(`${i[0]} ${i[1]}`).toLowerCase().includes(term)); if(!filtered.length)return; count+=filtered.length; const section=document.createElement('section'); section.className='branch'; section.innerHTML=`<h2>${g.name}<span>${filtered.length} ITEM${filtered.length>1?'S':''}</span></h2><div class="tags">${filtered.map(i=>`<button class="tag" data-group="${g.name}" data-item="${g.items.indexOf(i)}"><code>${escapeHTML(i[0])}</code><span>${i[1]}</span><b class="arrow">›</b></button>`).join('')}</div>`; map.append(section); });
+      groups.forEach(g=>{ const filtered=g.items.filter(i=>(activeTrack==='Tudo'||trackFor(g.name)===activeTrack)&&(active==='Todas'||active===g.name)&&(`${i[0]} ${i[1]}`).toLowerCase().includes(term)); if(!filtered.length)return; count+=filtered.length; const section=document.createElement('section'); section.className='branch'; section.innerHTML=`<h2>${g.name}<span>${filtered.length} ITEM${filtered.length>1?'S':''}</span></h2><div class="tags">${filtered.map(i=>`<button class="tag" data-group="${g.name}" data-item="${g.items.indexOf(i)}"><code>${escapeHTML(i[0])}</code><span>${i[1]}</span><b class="arrow">›</b></button>`).join('')}</div>`; map.append(section); });
       empty.style.display=count?'none':'block'; document.querySelectorAll('.tag').forEach(b=>b.addEventListener('click',()=>openDetail(b.dataset.group,b.dataset.item)));
     }
-    function drawFilters(){ filters.replaceChildren(); ['Todos',...groups.map(g=>g.name)].forEach(name=>{const b=document.createElement('button');b.textContent=name;b.className=name===active?'active':'';b.onclick=()=>{active=name;drawFilters();draw()};filters.append(b)}); }
+    function drawTracks(){ tracks.replaceChildren(); trackNames.forEach(name=>{const b=document.createElement('button');b.textContent=name;b.className=name===activeTrack?'active':'';b.onclick=()=>{activeTrack=name;active='Todas';drawTracks();drawFilters();draw()};tracks.append(b)}); }
+    function drawFilters(){ filters.replaceChildren(); const names=['Todas',...groups.filter(g=>activeTrack==='Tudo'||trackFor(g.name)===activeTrack).map(g=>g.name)]; names.forEach(name=>{const b=document.createElement('button');b.textContent=name;b.className=name===active?'active':'';b.onclick=()=>{active=name;drawFilters();draw()};filters.append(b)}); }
     const dialog=document.querySelector('#dialog'); function openDetail(group,index){const item=groups.find(g=>g.name===group).items[index]; document.querySelector('#detailCategory').textContent=group; document.querySelector('#detailTag').textContent=item[0]; document.querySelector('#detailMeaning').textContent=item[1]; document.querySelector('#detailExample').textContent=item[2]; dialog.showModal();}
-    document.querySelector('#close').onclick=()=>dialog.close(); dialog.addEventListener('click',e=>{if(e.target===dialog)dialog.close()}); search.addEventListener('input',draw); drawFilters(); draw();
+    document.querySelector('#close').onclick=()=>dialog.close(); dialog.addEventListener('click',e=>{if(e.target===dialog)dialog.close()}); search.addEventListener('input',draw); drawTracks(); drawFilters(); draw();
   </script>
 </body>
 </html>
