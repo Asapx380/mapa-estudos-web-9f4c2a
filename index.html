@@ -1,31 +1,47 @@
 <!doctype html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Mapa de estudos — Desenvolvimento Web</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
+
 <body>
   <header>
     <p class="eyebrow">Guia visual de estudos</p>
     <h1>Desenvolvimento web,<br>sem complicação.</h1>
-    <p class="intro">Um mapa visual de HTML, CSS, Git, JavaScript, TypeScript, Node.js e React. Clique em qualquer item para ver significado e exemplo.</p>
+    <p class="intro">Um mapa visual de HTML, CSS, Git, JavaScript, TypeScript, Node.js e React. Clique em qualquer item
+      para ver significado e exemplo.</p>
   </header>
   <main>
     <div class="toolbar">
-      <input class="search" id="search" type="search" placeholder="Buscar um item, por exemplo: imagem" aria-label="Buscar itens" />
-      <div class="filter-block"><p class="filter-label">1. Tecnologia</p><div class="filters" id="tracks"></div></div>
-      <div class="filter-block"><p class="filter-label">2. Assunto</p><div class="filters" id="filters"></div></div>
+      <input class="search" id="search" type="search" placeholder="Buscar um item, por exemplo: imagem"
+        aria-label="Buscar itens" />
+      <div class="filter-block">
+        <p class="filter-label">1. Tecnologia</p>
+        <div class="filters" id="tracks"></div>
+      </div>
+      <div class="filter-block">
+        <p class="filter-label">2. Assunto</p>
+        <div class="filters" id="filters"></div>
+      </div>
     </div>
     <section class="map" id="map" aria-label="Mapa mental de desenvolvimento web">
       <p class="empty" id="empty">Nenhuma tag encontrada. Tente outro termo.</p>
     </section>
   </main>
-  <footer>Atalho: use <b>Ctrl/Cmd + P</b> para salvar uma versão em PDF. Use os filtros para estudar uma tecnologia por vez.</footer>
+  <footer>Atalho: use <b>Ctrl/Cmd + P</b> para salvar uma versão em PDF. Use os filtros para estudar uma tecnologia por
+    vez.</footer>
   <dialog id="dialog">
     <article class="detail">
-      <div class="detail-head"><div><p class="eyebrow" id="detailCategory"></p><h3><code id="detailTag"></code></h3></div><button class="close" id="close" aria-label="Fechar">×</button></div>
+      <div class="detail-head">
+        <div>
+          <p class="eyebrow" id="detailCategory"></p>
+          <h3><code id="detailTag"></code></h3>
+        </div><button class="close" id="close" aria-label="Fechar">×</button>
+      </div>
       <p class="meaning" id="detailMeaning"></p>
       <p class="example-label">EXEMPLO SIMPLES</p>
       <pre id="detailExample"></pre>
@@ -34,4 +50,5 @@
   </dialog>
   <script src="script.js"></script>
 </body>
+
 </html>
