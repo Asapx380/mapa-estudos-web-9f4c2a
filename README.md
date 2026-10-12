@@ -19,3 +19,21 @@ script.js     Itens, busca e o painel de detalhe
 ```
 
 Site estático, sem build.
+
+## Desenvolvimento e validação
+
+Este projeto é estático. Para servir a pasta localmente, com Python instalado:
+
+```bash
+python -m http.server 8080
+```
+
+Abra `http://localhost:8080/`. Para conferir a sintaxe, com Node.js instalado:
+
+```bash
+node --check script.js
+```
+
+Teste a busca com e sem acentos, os filtros por tecnologia e assunto, a abertura e o fechamento do painel e a impressão. Confira também a navegação pelo teclado.
+
+A verificação de sintaxe não substitui os testes da interface e das integrações.
